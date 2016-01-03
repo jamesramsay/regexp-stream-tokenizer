@@ -1,0 +1,59 @@
+{
+  "name": "regexp-stream-tokenizer",
+  "version": "0.0.1",
+  "description": "A regular expression (RexExp) stream tokenizer.",
+  "main": "index.js",
+  "scripts": {
+    "test": "nyc --reporter=json ava",
+    "coverage": "istanbul report --reporter=html && open coverage/lcov-report/index.html",
+    "codecov": "cat coverage/coverage-final.json | codecov",
+    "lint": "eslint ./src ./test"
+  },
+  "config": {
+    "nyc": {
+      "exclude": [
+        "node_modules/",
+        "test/"
+      ]
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jamesramsay/regexp-stream-tokenizer.git"
+  },
+  "keywords": [
+    "streams",
+    "through",
+    "through2",
+    "tokenizer",
+    "tokeniser",
+    "regexp",
+    "regex"
+  ],
+  "author": {
+    "name": "James Ramsay",
+    "url": "http://jramsay.com.au"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jamesramsay/regexp-stream-tokenizer/issues"
+  },
+  "homepage": "https://github.com/jamesramsay/regexp-stream-tokenizer",
+  "dependencies": {
+    "clone-regexp": "^1.0.0",
+    "lodash.get": "^3.7.0",
+    "through2": "^2.0.0",
+    "xtend": "4.0.1"
+  },
+  "devDependencies": {
+    "ava": "^0.9.1",
+    "codecov.io": "^0.1.6",
+    "eslint": "^1.10.1",
+    "eslint-config-airbnb": "^2.1.0",
+    "istanbul": "^0.4.1",
+    "nyc": "^5.0.0"
+  },
+  "publishConfig": {
+    "tag": "latest"
+  }
+}
