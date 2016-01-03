@@ -1,0 +1,21 @@
+language: node_js
+node_js:
+- '5'
+- '4'
+- '0.12'
+- '0.10'
+sudo: false
+before_install:
+- npm -g install npm@latest
+script:
+- npm run test
+after_success:
+- npm run codecov
+deploy:
+  provider: npm
+  email: git@jwr.vc
+  api_key:
+    secure: VhQLOJsOZcicGr+qU3/EC6OwoGEB9Omr0lyqiVj2ZX5EWgQMXhPjSoR+91kWyUNKiLCvkDetOZo3SxAVDwM/vTflgHToUwZT653ZVJq8ejDfaVp8f32Oci4cyhC4/Ew6U+2ZeOuCM7JrGOA3l4zVbnYlXeA6XWpKouZl9dBV9J1C5MyGUM6nbLRwNac1uFMXfdoYBwb9/gtpxu4IUwOX+Z6Vz5eIf01W7Lv48HxJoScUbzPdXuOzAYAMQPU6AM4bulDFAKvtwHxG30sLp0rAGdq8hwsYYOEXR1Fl/kCNCR+OoazyEoRknz1BwVWSNjY0X0qr6ckerihIfwGc3VfMUHKnFmkhiqDVmarxFdhssZ+b6WhjFqgbp4T8A9lxHL37o+HjQy4O2AowgdzYKoZt7/SqbfChAxspzjdbF6A7mk96kDbQcSl17B/bVUrN38tx3MqynpZm5VHmPshxEcRGE3N6R5heEzTtkV593oZg67eldxq+L2lPf58TFY4FLCJ4xLjdbXL9x0pZlFvBlK7db8v55WpLjPxtpN8TvyjGVRbMBCYLN2KmWBkstlmNGem3u6bSf5vEmcHISevL6n4Zt2rX+6wKBwH+T9wq2eX5WOpsUc9gy5s3zgc8kd/Uxq8J5Ru2Ar6ErTP1yDqNoTrA6mL5uWSKI540joR3MUJlPtk=
+  on:
+    tags: true
+    repo: jamesramsay/regexp-stream-tokenizer
