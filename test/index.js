@@ -8,7 +8,7 @@ test.cb('should not return content when no input provided', (t) => {
     if (this.read() !== null) t.fail();
   });
 
-  words.on('end', function end() {
+  words.on('end', () => {
     t.pass();
     t.end();
   });
@@ -41,9 +41,7 @@ test.cb('should return tokens with default options', (t) => {
     }
   });
 
-  words.on('end', function end() {
-    t.end();
-  });
+  words.on('end', () => t.end());
 
   input.match(/.{1,3}/g).forEach((chunk) => {
     words.write(chunk, 'utf8');
@@ -68,9 +66,7 @@ test.cb('should not return ZBS with default excludeZBS option', (t) => {
     }
   });
 
-  words.on('end', function end() {
-    t.end();
-  });
+  words.on('end', () => t.end());
 
   input.match(/.{1,3}/g).forEach((chunk) => {
     words.write(chunk, 'utf8');
@@ -96,9 +92,7 @@ test.cb('should return ZBS with excludeZBS option false', (t) => {
     }
   });
 
-  words.on('end', function end() {
-    t.end();
-  });
+  words.on('end', () => t.end());
 
   input.match(/.{1,3}/g).forEach((chunk) => {
     words.write(chunk, 'utf8');
@@ -140,9 +134,7 @@ test.cb('should return tokens and separators when separator option true', (t) =>
     }
   });
 
-  words.on('end', function end() {
-    t.end();
-  });
+  words.on('end', () => t.end());
 
   input.match(/.{1,3}/g).forEach((chunk) => {
     words.write(chunk, 'utf8');
@@ -184,9 +176,7 @@ test.cb('should return tokens and separators as objects (string options provided
     }
   });
 
-  words.on('end', function end() {
-    t.end();
-  });
+  words.on('end', () => t.end());
 
   input.match(/.{1,3}/g).forEach((chunk) => {
     words.write(chunk, 'utf8');
@@ -237,9 +227,7 @@ test.cb('should return tokens and separators as objects (function options provid
     }
   });
 
-  words.on('end', function end() {
-    t.end();
-  });
+  words.on('end', () => t.end());
 
   input.match(/.{1,3}/g).forEach((chunk) => {
     words.write(chunk, 'utf8');
@@ -274,9 +262,7 @@ test.cb('should return tokens and separators as objects (function options provid
     }
   });
 
-  words.on('end', function end() {
-    t.end();
-  });
+  words.on('end', () => t.end());
 
   input.match(/.{1,3}/g).forEach((chunk) => {
     words.write(chunk, 'utf8');
