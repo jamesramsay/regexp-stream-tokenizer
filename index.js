@@ -45,6 +45,7 @@ function ctor(optionsArg, regexArg) {
   }
 
   function push(chunk, match) {
+    var matchAlt = match;
     var output;
     // Allows pseudo-lookbehind by using groups
     // [foo][ ][bar] (true lookbehind would yeild [foo ][bar])
@@ -53,15 +54,15 @@ function ctor(optionsArg, regexArg) {
     if (leaveBehind) {
       output = processOutput(options.separator, leaveBehind);
       if (!options.excludeZBS !== (output !== ZERO_BYTE_STRING)) this.push(output);
-      match[0] = chunk.slice(chunk.indexOf(leaveBehind) + leaveBehind.length);
+      matchAlt[0] = chunk.slice(chunk.indexOf(leaveBehind) + leaveBehind.length);
     }
 
-    if (match && options.token) {
+    if (matchAlt && options.token) {
       output = processOutput(options.token, match);
       if (!options.excludeZBS !== (output !== ZERO_BYTE_STRING)) this.push(output);
     }
 
-    if (!match && options.separator) {
+    if (!matchAlt && options.separator) {
       output = processOutput(options.separator, chunk);
       if (!options.excludeZBS !== (output !== ZERO_BYTE_STRING)) this.push(output);
     }
@@ -69,7 +70,7 @@ function ctor(optionsArg, regexArg) {
 
 
   function tokenize(chunk) {
-    var lastChunk = chunk ? false : true;
+    var lastChunk = !chunk;
     var nextOffset = 0;
     var match = null;
 
