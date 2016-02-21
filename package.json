@@ -50,7 +50,7 @@
     "ava": "^0.12.0",
     "codecov.io": "^0.1.6",
     "eslint": "^1.10.1",
-    "eslint-config-airbnb": "^5.0.0",
+    "eslint-config-airbnb": "^6.0.0",
     "istanbul": "^0.4.1",
     "nyc": "^5.0.0"
   },
