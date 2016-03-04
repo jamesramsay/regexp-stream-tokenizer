@@ -52,7 +52,7 @@
     "eslint": "^1.10.1",
     "eslint-config-airbnb": "^5.0.0",
     "istanbul": "^0.4.1",
-    "nyc": "^5.0.0"
+    "nyc": "^6.0.0"
   },
   "publishConfig": {
     "tag": "latest"
