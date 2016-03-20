@@ -13,6 +13,12 @@ function ctor(optionsArg, regexArg) {
   var pattern;
   var inputBuffer = '';
 
+  // Zero-based line and column in the original source
+  var cursor = {
+    line: 1,
+    column: 0
+  };
+
   if (regexArg) {
     regex = regexArg;
     options = optionsArg;
@@ -27,13 +33,19 @@ function ctor(optionsArg, regexArg) {
 
   function processOutput(template, match) {
     var output;
+    var matchContent = match[0];
+    var newCursor = {
+      line: matchContent.match(/\n/g),
+      column: matchContent.match(/.*$/g)
+    };
+
     switch (typeof template) {
       case 'boolean':
-        output = match[0];
+        output = matchContent;
         break;
       case 'string':
         output = {};
-        output[template] = match[0];
+        output[template] = matchContent;
         break;
       case 'function':
         output = template(match, options);
@@ -41,6 +53,18 @@ function ctor(optionsArg, regexArg) {
       default:
         output = '';
     }
+
+    // Append line & column
+    if ((typeof output) === 'object') {
+      output.line = cursor.line;
+      output.column = cursor.column;
+      if (options.source) output.source = options.source;
+    }
+
+    // Update line & column
+    cursor.line += newCursor.line ? newCursor.line.length : 0;
+    cursor.column = newCursor.line ? newCursor.column[0].length : cursor.column + newCursor.column[0].length;
+
     return output;
   }
 

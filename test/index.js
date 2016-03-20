@@ -146,24 +146,24 @@ test.cb('should return tokens and separators when separator option true', (t) =>
 test.cb('should return tokens and separators as objects (string options provided)', (t) => {
   const input = 'The quick brown fox jumps over the lazy dog.';
   const expected = [
-    { token: 'The' },
-    { separator: ' ' },
-    { token: 'quick' },
-    { separator: ' ' },
-    { token: 'brown' },
-    { separator: ' ' },
-    { token: 'fox' },
-    { separator: ' ' },
-    { token: 'jumps' },
-    { separator: ' ' },
-    { token: 'over' },
-    { separator: ' ' },
-    { token: 'the' },
-    { separator: ' ' },
-    { token: 'lazy' },
-    { separator: ' ' },
-    { token: 'dog' },
-    { separator: '.' },
+    { token: 'The', line: 1, column: 0 },
+    { separator: ' ', line: 1, column: 3 },
+    { token: 'quick', line: 1, column: 4 },
+    { separator: ' ', line: 1, column: 9 },
+    { token: 'brown', line: 1, column: 10 },
+    { separator: ' ', line: 1, column: 15 },
+    { token: 'fox', line: 1, column: 16 },
+    { separator: ' ', line: 1, column: 19 },
+    { token: 'jumps', line: 1, column: 20 },
+    { separator: ' ', line: 1, column: 25 },
+    { token: 'over', line: 1, column: 26 },
+    { separator: ' ', line: 1, column: 30 },
+    { token: 'the', line: 1, column: 31 },
+    { separator: ' ', line: 1, column: 34 },
+    { token: 'lazy', line: 1, column: 35 },
+    { separator: ' ', line: 1, column: 39 },
+    { token: 'dog', line: 1, column: 40 },
+    { separator: '.', line: 1, column: 43 },
   ];
   const words = tokenizer({ token: 'token', separator: 'separator' }, /\w+/g);
   let index = 0;
@@ -188,24 +188,24 @@ test.cb('should return tokens and separators as objects (string options provided
 test.cb('should return tokens and separators as objects (function options provided)', (t) => {
   const input = 'The quick brown fox jumps over the lazy dog.';
   const expected = [
-    { content: 'The', match: true },
-    { content: ' ' },
-    { content: 'quick', match: true },
-    { content: ' ' },
-    { content: 'brown', match: true },
-    { content: ' ' },
-    { content: 'fox', match: true },
-    { content: ' ' },
-    { content: 'jumps', match: true },
-    { content: ' ' },
-    { content: 'over', match: true },
-    { content: ' ' },
-    { content: 'the', match: true },
-    { content: ' ' },
-    { content: 'lazy', match: true },
-    { content: ' ' },
-    { content: 'dog', match: true },
-    { content: '.' },
+    { content: 'The', line: 1, column: 0, match: true },
+    { content: ' ', line: 1, column: 3 },
+    { content: 'quick', line: 1, column: 4, match: true },
+    { content: ' ', line: 1, column: 9 },
+    { content: 'brown', line: 1, column: 10, match: true },
+    { content: ' ', line: 1, column: 15 },
+    { content: 'fox', line: 1, column: 16, match: true },
+    { content: ' ', line: 1, column: 19 },
+    { content: 'jumps', line: 1, column: 20, match: true },
+    { content: ' ', line: 1, column: 25 },
+    { content: 'over', line: 1, column: 26, match: true },
+    { content: ' ', line: 1, column: 30 },
+    { content: 'the', line: 1, column: 31, match: true },
+    { content: ' ', line: 1, column: 34 },
+    { content: 'lazy', line: 1, column: 35, match: true },
+    { content: ' ', line: 1, column: 39 },
+    { content: 'dog', line: 1, column: 40, match: true },
+    { content: '.', line: 1, column: 43 },
   ];
 
   function token(match) {
@@ -239,8 +239,8 @@ test.cb('should return tokens and separators as objects (function options provid
 test.cb('should return tokens and separators as objects (function options provided)', (t) => {
   const input = '  The';
   const expected = [
-    { content: '  ' },
-    { content: 'The', sentence: true, leadingWS: '  ' },
+    { content: '  ', line: 1, column: 0 },
+    { content: 'The', line: 1, column: 2, sentence: true, leadingWS: '  ' },
   ];
 
   function token(match) {
@@ -268,4 +268,39 @@ test.cb('should return tokens and separators as objects (function options provid
     words.write(chunk, 'utf8');
   });
   words.end();
+});
+
+
+test.cb('should tokenize mixed input', (t) => {
+  const input = '# Title\n:[link](test1.apib)\nSome content...\n';
+  const expected = [
+    { content: '# Title\n', line: 1, column: 0 },
+    { content: ':[link](test1.apib)', line: 2, column: 0 },
+    { content: '\nSome content...\n', line: 2, column: 19 },
+  ];
+  const linkRegExp = new RegExp(/(^[\t ]*)?(\:\[.*?\]\((.*?)\))/gm);
+
+  function token(match) {
+    return { content: match[2] };
+  }
+
+  function separator(match) {
+    return { content: match[0] };
+  }
+
+  const tokenStream = tokenizer({ token, separator }, linkRegExp);
+  let index = 0;
+
+  tokenStream.on('readable', function read() {
+    let chunk = null;
+    while ((chunk = this.read()) !== null) {
+      t.same(chunk, expected[index]);
+      index += 1;
+    }
+  });
+
+  tokenStream.on('end', () => t.end());
+
+  tokenStream.write(input, 'utf8');
+  tokenStream.end();
 });
