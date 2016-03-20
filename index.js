@@ -52,7 +52,7 @@ function ctor(optionsArg, regexArg) {
     var leaveBehind = get(match, options.leaveBehind);
 
     if (leaveBehind) {
-      output = processOutput(options.separator, leaveBehind);
+      output = processOutput(options.separator, [leaveBehind]);
       if (!options.excludeZBS !== (output !== ZERO_BYTE_STRING)) this.push(output);
       matchAlt[0] = chunk.slice(chunk.indexOf(leaveBehind) + leaveBehind.length);
     }
@@ -63,7 +63,7 @@ function ctor(optionsArg, regexArg) {
     }
 
     if (!matchAlt && options.separator) {
-      output = processOutput(options.separator, chunk);
+      output = processOutput(options.separator, [chunk]);
       if (!options.excludeZBS !== (output !== ZERO_BYTE_STRING)) this.push(output);
     }
   }

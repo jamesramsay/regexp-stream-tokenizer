@@ -213,7 +213,7 @@ test.cb('should return tokens and separators as objects (function options provid
   }
 
   function separator(chunk) {
-    return { content: chunk };
+    return { content: chunk[0] };
   }
 
   const words = tokenizer({ token, separator }, /\w+/g);
@@ -248,7 +248,7 @@ test.cb('should return tokens and separators as objects (function options provid
   }
 
   function separator(chunk) {
-    return { content: chunk };
+    return { content: chunk[0] };
   }
 
   const words = tokenizer({ token, separator, leaveBehind: '[1]' }, /(^\s*)?(\w+)/gm);
