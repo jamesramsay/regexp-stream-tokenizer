@@ -275,8 +275,11 @@ test.cb('should tokenize mixed input', (t) => {
   const input = '# Title\n:[link](test1.apib)\nSome content...\n';
   const expected = [
     { content: '# Title\n', line: 1, column: 0 },
+    { content: '', line: 2, column: 0 },
     { content: ':[link](test1.apib)', line: 2, column: 0 },
-    { content: '\nSome content...\n', line: 2, column: 19 },
+    { content: '\n', line: 2, column: 19 },
+    { content: 'Some content...\n', line: 3, column: 0 },
+    { content: '', line: 4, column: 0 },
   ];
   const linkRegExp = new RegExp(/(^[\t ]*)?(\:\[.*?\]\((.*?)\))/gm);
 

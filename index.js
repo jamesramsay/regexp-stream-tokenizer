@@ -4,6 +4,7 @@ var through2 = require('through2');
 var get = require('lodash.get');
 var xtend = require('xtend');
 var cloneRegExp = require('clone-regexp');
+var leftsplit = require('left-split');
 
 var ZERO_BYTE_STRING = '';
 
@@ -97,13 +98,17 @@ function ctor(optionsArg, regexArg) {
     var lastChunk = !chunk;
     var nextOffset = 0;
     var match = null;
+    var separator;
 
     if (chunk) inputBuffer += chunk.toString('utf8');
 
     while ((match = pattern.exec(inputBuffer)) !== null) {
       // Content prior to match can be returned without transform
       if (match.index !== nextOffset) {
-        push.call(this, inputBuffer.slice(nextOffset, match.index));
+        separator = inputBuffer.slice(nextOffset, match.index);
+        leftsplit(separator, /(\r?\n)/).forEach(function pushSlice(slice) {
+          push.call(this, slice);
+        }, this);
       }
 
       // Match within bounds: [  xxxx  ]
@@ -134,7 +139,9 @@ function ctor(optionsArg, regexArg) {
 
     // Empty internal buffer and signal the end of the output stream.
     if (inputBuffer !== '') {
-      push.call(this, inputBuffer);
+      leftsplit(inputBuffer, /(\r?\n)/).forEach(function pushSlice(slice) {
+        push.call(this, slice);
+      }, this);
     }
 
     this.push(null);
