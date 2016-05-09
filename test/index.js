@@ -281,7 +281,7 @@ test.cb('should tokenize mixed input', (t) => {
     { content: 'Some content...\n', line: 3, column: 0 },
     { content: '', line: 4, column: 0 },
   ];
-  const linkRegExp = new RegExp(/(^[\t ]*)?(\:\[.*?\]\((.*?)\))/gm);
+  const linkRegExp = new RegExp(/(^[\t ]*)?(:\[.*?\]\((.*?)\))/gm);
 
   function token(match) {
     return { content: match[2] };
