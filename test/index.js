@@ -17,6 +17,24 @@ test.cb('should not return content when no input provided', (t) => {
 });
 
 
+test.cb('should return object chunks unmodified', (t) => {
+  const input = { content: 'The quick brown fox jumps over the lazy dog.' };
+  const stream = tokenizer(/\w+/g);
+
+  stream.on('readable', function read() {
+    let chunk = null;
+    while ((chunk = this.read()) !== null) {
+      t.deepEqual(chunk, input);
+    }
+  });
+
+  stream.on('end', () => t.end());
+
+  stream.write(input);
+  stream.end();
+});
+
+
 test.cb('should return tokens with default options', (t) => {
   const input = 'The quick brown fox jumps over the lazy dog.';
   const expected = [
@@ -36,7 +54,7 @@ test.cb('should return tokens with default options', (t) => {
   words.on('readable', function read() {
     let chunk = null;
     while ((chunk = this.read()) !== null) {
-      t.same(chunk, expected[index]);
+      t.deepEqual(chunk, expected[index]);
       index += 1;
     }
   });
@@ -61,7 +79,7 @@ test.cb('should not return ZBS with default excludeZBS option', (t) => {
   words.on('readable', function read() {
     let chunk = null;
     while ((chunk = this.read()) !== null) {
-      t.same(chunk, expected[index]);
+      t.deepEqual(chunk, expected[index]);
       index += 1;
     }
   });
@@ -87,7 +105,7 @@ test.cb('should return ZBS with excludeZBS option false', (t) => {
   words.on('readable', function read() {
     let chunk = null;
     while ((chunk = this.read()) !== null) {
-      t.same(chunk, expected[index]);
+      t.deepEqual(chunk, expected[index]);
       index += 1;
     }
   });
@@ -129,7 +147,7 @@ test.cb('should return tokens and separators when separator option true', (t) =>
   words.on('readable', function read() {
     let chunk = null;
     while ((chunk = this.read()) !== null) {
-      t.same(chunk, expected[index]);
+      t.deepEqual(chunk, expected[index]);
       index += 1;
     }
   });
@@ -171,7 +189,7 @@ test.cb('should return tokens and separators as objects (string options provided
   words.on('readable', function read() {
     let chunk = null;
     while ((chunk = this.read()) !== null) {
-      t.same(chunk, expected[index]);
+      t.deepEqual(chunk, expected[index]);
       index += 1;
     }
   });
@@ -222,7 +240,7 @@ test.cb('should return tokens and separators as objects (function options provid
   words.on('readable', function read() {
     let chunk = null;
     while ((chunk = this.read()) !== null) {
-      t.same(chunk, expected[index]);
+      t.deepEqual(chunk, expected[index]);
       index += 1;
     }
   });
@@ -257,7 +275,7 @@ test.cb('should return tokens and separators as objects (function options provid
   words.on('readable', function read() {
     let chunk = null;
     while ((chunk = this.read()) !== null) {
-      t.same(chunk, expected[index]);
+      t.deepEqual(chunk, expected[index]);
       index += 1;
     }
   });
@@ -297,7 +315,7 @@ test.cb('should tokenize mixed input', (t) => {
   tokenStream.on('readable', function read() {
     let chunk = null;
     while ((chunk = this.read()) !== null) {
-      t.same(chunk, expected[index]);
+      t.deepEqual(chunk, expected[index]);
       index += 1;
     }
   });

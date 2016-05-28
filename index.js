@@ -1,7 +1,7 @@
 'use strict';
 
 var through2 = require('through2');
-var get = require('lodash.get');
+var _ = require('lodash');
 var xtend = require('xtend');
 var cloneRegExp = require('clone-regexp');
 var leftsplit = require('left-split');
@@ -59,7 +59,6 @@ function ctor(optionsArg, regexArg) {
     if ((typeof output) === 'object') {
       output.line = cursor.line;
       output.column = cursor.column;
-      if (options.source) output.source = options.source;
     }
 
     // Update line & column
@@ -74,7 +73,7 @@ function ctor(optionsArg, regexArg) {
     var output;
     // Allows pseudo-lookbehind by using groups
     // [foo][ ][bar] (true lookbehind would yeild [foo ][bar])
-    var leaveBehind = get(match, options.leaveBehind);
+    var leaveBehind = _.get(match, options.leaveBehind);
 
     if (leaveBehind) {
       output = processOutput(options.separator, [leaveBehind]);
@@ -100,7 +99,7 @@ function ctor(optionsArg, regexArg) {
     var match = null;
     var separator;
 
-    if (chunk) inputBuffer += chunk.toString('utf8');
+    if (chunk) inputBuffer += chunk;
 
     while ((match = pattern.exec(inputBuffer)) !== null) {
       // Content prior to match can be returned without transform
@@ -129,7 +128,12 @@ function ctor(optionsArg, regexArg) {
 
 
   function transform(chunk, encoding, cb) {
-    tokenize.call(this, chunk);
+    // Allow objects straight through. Assumes that input stream is entirely strings or objects.
+    if (!_.isString(chunk) && !_.isBuffer(chunk)) {
+      return cb(null, chunk);
+    }
+
+    tokenize.call(this, chunk.toString('utf8'));
     return cb();
   }
 
