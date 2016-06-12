@@ -8,7 +8,10 @@
     "posttest": "npm run lint",
     "coverage": "istanbul report --reporter=html && open coverage/lcov-report/index.html",
     "codecov": "cat coverage/coverage-final.json | codecov",
-    "lint": "eslint ./src ./test"
+    "lint": "eslint ./src ./test",
+    "release:major": "npm version major && git push --follow-tags",
+    "release:minor": "npm version minor && git push --follow-tags",
+    "release:patch": "npm version patch && git push --follow-tags"
   },
   "config": {
     "nyc": {
