@@ -129,7 +129,7 @@ function ctor(optionsArg, regexArg) {
 
   function transform(chunk, encoding, cb) {
     // Allow objects straight through. Assumes that input stream is entirely strings or objects.
-    if (!_.isString(chunk) && !_.isBuffer(chunk)) {
+    if (_.isPlainObject(chunk)) {
       return cb(null, chunk);
     }
 
