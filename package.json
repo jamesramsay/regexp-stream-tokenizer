@@ -1,6 +1,6 @@
 {
   "name": "regexp-stream-tokenizer",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "A regular expression (RexExp) stream tokenizer.",
   "main": "index.js",
   "scripts": {
