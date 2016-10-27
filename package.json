@@ -13,6 +13,9 @@
     "release:minor": "npm version minor && git push --follow-tags",
     "release:patch": "npm version patch && git push --follow-tags"
   },
+  "engine": {
+    "node": ">=4"
+  },
   "config": {
     "nyc": {
       "exclude": [
