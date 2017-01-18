@@ -61,7 +61,7 @@
     "eslint-config-airbnb-base": "^9.0.0",
     "eslint-plugin-import": "^2.0.1",
     "istanbul": "^0.4.1",
-    "nyc": "^8.3.1"
+    "nyc": "^10.1.2"
   },
   "publishConfig": {
     "tag": "latest"
