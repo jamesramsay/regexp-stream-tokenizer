@@ -54,7 +54,7 @@
     "xtend": "^4.0.1"
   },
   "devDependencies": {
-    "ava": "^0.16.0",
+    "ava": "^0.18.1",
     "check-node-version": "^1.1.1",
     "codecov.io": "^0.1.6",
     "eslint": "^3.1.0",
