@@ -47,7 +47,7 @@
   },
   "homepage": "https://github.com/jamesramsay/regexp-stream-tokenizer",
   "dependencies": {
-    "clone-regexp": "^1.0.0",
+    "clone-regexp": "^2.2.0",
     "left-split": "^1.0.0",
     "lodash": "^4.0.0",
     "through2": "^2.0.0",
