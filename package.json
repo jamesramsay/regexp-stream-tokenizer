@@ -55,7 +55,7 @@
   },
   "devDependencies": {
     "ava": "^0.25.0",
-    "check-node-version": "^3.0.0",
+    "check-node-version": "^4.0.1",
     "codecov.io": "^0.1.6",
     "eslint": "^3.15.0",
     "eslint-config-airbnb-base": "^11.1.0",
